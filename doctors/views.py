@@ -30,24 +30,18 @@ class CategoriesAPIS(APIView):
         data = helper.deleteCategory(request)
         return makeResponse(data)
 
-# class HospitalDetailsAPIS(APIView):
-#     authentication_classes = [JWTAuthentication]
-#     permission_classes = [IsAuthenticated]
-    
-#     def get(self, request):
-#         data = helper.getHospitalDetail(request)
-#         return makeResponse(data)
+
     # --------------------------------------Doctors ------------------------------------------------------
+class DoctorsList(APIView):
+    def get(self, request):
+        data = helper.getDoctorsList(request)
+        return makeResponse(data)
 class DoctorsAPIS(APIView):
-    # authentication_classes = [JWTAuthentication]
-    # permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         data = helper.addDoctors(request)
-        return makeResponse(data)
-    
-    def get(self, request):
-        data = helper.getDoctorsList(request)
         return makeResponse(data)
     
     def put(self, request):
@@ -58,3 +52,11 @@ class DoctorsAPIS(APIView):
         data = helper.deleteDoctors(request)
         return makeResponse(data)
     
+class DoctorsDetailsAPIS(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request):
+        data = helper.getDoctorsDetail(request)
+        return makeResponse(data)
+

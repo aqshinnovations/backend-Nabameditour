@@ -54,3 +54,8 @@ class DoctorsSerializer(serializers.ModelSerializer):
 
 
 
+class DoctorsDetailSerializer(DoctorsSerializer):
+    category = CategoriesSerializer(read_only=True)
+
+    class Meta(DoctorsSerializer.Meta):
+        fields = DoctorsSerializer.Meta.fields

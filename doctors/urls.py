@@ -6,9 +6,11 @@ from django.conf.urls.static import static
 urlpatterns = [
 
     path('category/', views.CategoriesAPIS.as_view(), name='hospitals'),
-    # path('HospitalDetailsAPIS/', views.HospitalDetailsAPIS.as_view(), name='HospitalDetailsAPIS'),
+    path('DoctorsDetails/', views.DoctorsDetailsAPIS.as_view(), name='HospitalDetailsAPIS'),
     
     path('doctors/', views.DoctorsAPIS.as_view(), name='departments'),
+    path('list/', views.DoctorsList.as_view(), name='departments'),
+    
   
     
     

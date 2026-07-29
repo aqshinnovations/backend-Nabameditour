@@ -6,6 +6,10 @@ from . import helper
 from config.common.utils import makeResponse
 
 
+class HospitalList(APIView):
+    def get(self, request):
+        data = helper.listHospital(request)
+        return makeResponse(data)
 class HospitalAPIS(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
@@ -14,9 +18,6 @@ class HospitalAPIS(APIView):
         data = helper.addHospitals(request)
         return makeResponse(data)
     
-    def get(self, request):
-        data = helper.listHospital(request)
-        return makeResponse(data)
     
     def put(self, request):
         data = helper.updateHospital(request)
@@ -33,7 +34,7 @@ class HospitalDetailsAPIS(APIView):
     def get(self, request):
         data = helper.getHospitalDetail(request)
         return makeResponse(data)
-    
+
 
 # -------------------------------  Specialization  --------------------------------------
     

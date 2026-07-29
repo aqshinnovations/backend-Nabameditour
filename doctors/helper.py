@@ -1,5 +1,5 @@
 from .models import Category,Doctor
-from .serializer import CategoriesSerializer,DoctorsSerializer
+from .serializer import CategoriesSerializer,DoctorsSerializer,DoctorsDetailSerializer
 
                 # ==================================category ====================================
 
@@ -125,7 +125,11 @@ def addDoctors(request):
                 "msg": "Category not found",
         
         }
-
+    if Doctor.objects.filter(category=category, name_en=name_en).exists():
+        return {
+            "code": "409",
+            "msg": "Doctor already exists",
+        }
     doctors = Doctor()
     doctors.name_ar = name_ar
     doctors.name_en = name_en
@@ -170,6 +174,37 @@ def getDoctorsList(request):
         "code": "200",
         "list": serializer.data,
     }
+    
+    # --------------------
+    
+    
+def getDoctorsDetail(request):
+    data = request.GET
+    lang = request.GET.get("lang", "en")
+    
+    id = data.get("id", None)
+    
+    if not id:
+        return {
+            "code": "404",
+            "msg": "Bad request. Please ensure all required fields are provided.",
+        }
+        
+    hospital = Doctor.objects.filter(id=id).first()
+    if not hospital:
+        return {"code": "401", "msg": "No record found with the provided ID."}
+
+    serializer = DoctorsDetailSerializer(
+        hospital, context={"request": request,"lang": lang}
+    )
+
+    return {
+        "code": "200",
+        "data": serializer.data
+    }
+
+  
+    # =================
 def updateDoctors(request):
     data = request.data
     id = data.get("id", None)

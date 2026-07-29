@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
+from datetime import timedelta
 
 from pathlib import Path
 
@@ -26,9 +27,10 @@ SECRET_KEY = 'django-insecure-3^0&!3+4h0_azgy3flach$z7vppd3bml!kh8)zbc(egr_v(=@c
 DEBUG = True
 
 ALLOWED_HOSTS = []
-MEDIA_URL = "/blogs/"
-MEDIA_ROOT = BASE_DIR / "blogs"
-
+# MEDIA_URL = "/blogs/"
+# MEDIA_ROOT = BASE_DIR / "blogs"
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 # Application definition
 
 INSTALLED_APPS = [
@@ -145,3 +147,13 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),  # Change as needed
+    "ROTATE_REFRESH_TOKENS": False,
+    "BLACKLIST_AFTER_ROTATION": False,
+
+    "ALGORITHM": "HS256",
+    "SIGNING_KEY": SECRET_KEY,
+    "AUTH_HEADER_TYPES": ("Bearer",),
+}
