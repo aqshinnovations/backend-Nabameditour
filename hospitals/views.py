@@ -7,8 +7,8 @@ from config.common.utils import makeResponse
 
 
 class HospitalAPIS(APIView):
-    # authentication_classes = [JWTAuthentication]
-    # permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         data = helper.addHospitals(request)
@@ -27,8 +27,8 @@ class HospitalAPIS(APIView):
         return makeResponse(data)
 
 class HospitalDetailsAPIS(APIView):
-    # authentication_classes = [JWTAuthentication]
-    # permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
     
     def get(self, request):
         data = helper.getHospitalDetail(request)
@@ -38,8 +38,8 @@ class HospitalDetailsAPIS(APIView):
 # -------------------------------  Specialization  --------------------------------------
     
 class SpecializationAPIS(APIView):
-    # authentication_classes = [JWTAuthentication]
-    # permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         data = helper.addSpecializations(request)

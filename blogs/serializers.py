@@ -22,6 +22,7 @@ class BlogsSerializer(serializers.ModelSerializer):
             "cover_image",
             "created_at",    
             "updated_at",
+            "language"
        
         ]
 

@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+venv/
+.env
+
+# Django
+db.sqlite3
+media/
+
+# Migrations cache
+**/__pycache__/
+
+# Uploaded images
+blogs/blogs/
+blogs/hospitals/
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db

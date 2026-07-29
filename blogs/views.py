@@ -6,7 +6,7 @@ from . import helper
 from config.common.utils import makeResponse
 
 
-class BlogListAPIS(APIView):
+class BlogAPIS(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
@@ -14,12 +14,7 @@ class BlogListAPIS(APIView):
         data = helper.saveBlogs(request)
         return makeResponse(data)
     
-    def get(self, request):
-        data = helper.listBlogs(request)
-        return makeResponse(data)
     
-
-
     def delete(self, request):
         data = helper.deleteBlog(request)
         return makeResponse(data)
@@ -28,15 +23,14 @@ class BlogListAPIS(APIView):
         data = helper.updateBlog(request)
         return makeResponse(data)
     
-class BlogAPIS(APIView):
-    # authentication_classes = [JWTAuthentication]
-    # permission_classes = [IsAuthenticated]
-    
-    def get(self, request):
-        data = helper.listSingleBlog(request)
-        return makeResponse(data)
-
-class BlogListUNSECURES(APIView):
+class BlogListAPIS(APIView):
     def get(self, request):
         data = helper.listBlogs(request)
         return makeResponse(data)
+    
+    
+class BlogContentAPIS(APIView):
+    def get(self, request):
+        data = helper.getBlogContent(request)
+        return makeResponse(data)
+

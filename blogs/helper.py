@@ -8,19 +8,27 @@ def saveBlogs(request):
     title = data.get("title", None)
     content = data.get("content", None)
     author = data.get("author", None)
+    language = data.get("language", None)
+
     cover_image = request.FILES.get("cover_image") 
 
-    if not title or not content or not author:
+    if not title or not content or not author or not language:
         return {
             "code": "400",
             "msg": "Bad request. Please ensure all required fields are provided",
         }
-
+    if Blogs.objects.filter(title__iexact=title.strip()).exists():
+        return {
+            "code": "400",
+            "msg": "A blog with this title already exists.",
+        }
     blogsDetails = Blogs()
     blogsDetails.title = title
     blogsDetails.content = content
     blogsDetails.author = author
     blogsDetails.cover_image = cover_image 
+    blogsDetails.language = language 
+
 
     blogsDetails.save()
 
@@ -38,7 +46,7 @@ def listBlogs(request):
     return {"code": "200", "list": blogsSerializer.data}
 
 
-def listSingleBlog(request):
+def getBlogContent(request):
     data = request.GET
     
     id = data.get("id", None)

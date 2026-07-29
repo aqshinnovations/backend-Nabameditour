@@ -1,6 +1,17 @@
 from django.db import models
 
 class Blogs(models.Model):
+    LANGUAGE_CHOICES = [
+        ("en", "English"),
+        ("ar", "Arabic"),
+    ]
+
+    language = models.CharField(
+        max_length=2,
+        choices=LANGUAGE_CHOICES,
+        default="en",
+    )
+    
     title = models.CharField(max_length=255)
     content = models.TextField()
     author = models.CharField(max_length=255)

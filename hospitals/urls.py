@@ -11,6 +11,7 @@ urlpatterns = [
     path('Facilities/', views.FacilitiesAPIS.as_view(), name='facilities'),
     
     
+    
 
     
 
