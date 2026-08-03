@@ -59,4 +59,53 @@ class DoctorsDetailsAPIS(APIView):
     def get(self, request):
         data = helper.getDoctorsDetail(request)
         return makeResponse(data)
+# -------------------------------------- Qualification ------------------------------------------------------
 
+class QualificationListAPI(APIView):
+    # Public API
+    def get(self, request):
+        data = helper.getQualificationList(request)
+        return makeResponse(data)
+
+
+class QualificationAPIS(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        data = helper.addQualification(request)
+        return makeResponse(data)
+
+    def put(self, request):
+        data = helper.updateQualification(request)
+        return makeResponse(data)
+
+    def delete(self, request):
+        data = helper.deleteQualification(request)
+        return makeResponse(data)
+
+
+# -------------------------------------- Specialist ------------------------------------------------------
+
+class SpecialistListAPI(APIView):
+    # Public API
+    def get(self, request):
+        data = helper.getSpecialistList(request)
+        return makeResponse(data)
+
+
+class SpecialistAPIS(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        data = helper.addSpecialist(request)
+        return makeResponse(data)
+
+    def put(self, request):
+        data = helper.updateSpecialist(request)
+        return makeResponse(data)
+
+    def delete(self, request):
+        data = helper.deleteSpecialist(request)
+        return makeResponse(data)

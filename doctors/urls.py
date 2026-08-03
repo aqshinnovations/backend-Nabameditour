@@ -12,7 +12,13 @@ urlpatterns = [
     path('list/', views.DoctorsList.as_view(), name='departments'),
     
   
-    
+    # Qualification
+    path("qualification/", views.QualificationAPIS.as_view()),
+    path("qualification/list/", views.QualificationListAPI.as_view()),
+
+    # Specialist
+    path("specialist/", views.SpecialistAPIS.as_view()),
+    path("specialist/list/", views.SpecialistListAPI.as_view()),
     
     
     

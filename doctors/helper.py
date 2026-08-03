@@ -1,6 +1,6 @@
-from .models import Category,Doctor
-from .serializer import CategoriesSerializer,DoctorsSerializer,DoctorsDetailSerializer
-
+from .models import Category,Doctor,Qualification,Specialist
+from .serializer import CategoriesSerializer,DoctorsSerializer,DoctorsDetailSerializer,QualificationSerializer,SpecialistSerializer
+from django.db.models import Q
                 # ==================================category ====================================
 
 def addCategory(request):
@@ -292,3 +292,216 @@ def deleteDoctors(request):
 
 
 
+# ------------------qua;ification -------------------
+
+def addQualification(request):
+    data = request.data
+
+    doctor_id = data.get("doctor_id")
+    name_en = data.get("name_en")
+    name_ar = data.get("name_ar")
+
+    if not doctor_id or not name_en:
+        return {
+            "code": "400",
+            "msg": "doctor_id and name_en are required."
+        }
+
+    doctor = Doctor.objects.filter(id=doctor_id).first()
+    if not doctor:
+        return {
+            "code": "404",
+            "msg": "Doctor not found."
+        }
+    if Qualification.objects.filter(
+    doctor=doctor
+    ).filter(
+        Q(name_en__iexact=name_en) |
+        Q(name_ar__iexact=name_ar)
+    ).exists():
+        return {
+            "code": "409",
+            "msg": "Qualification already exists."
+        }
+
+    return {
+        "code": "200",
+        "msg": "Qualification added successfully."
+    }
+
+def getQualificationList(request):
+    doctor_id = request.GET.get("doctor_id")
+
+    if not doctor_id:
+        return {
+            "code": "400",
+            "msg": "doctor_id is required."
+        }
+
+    qualifications = Qualification.objects.filter(doctor_id=doctor_id)
+
+    serializer = QualificationSerializer(
+        qualifications,
+        many=True
+    )
+
+    return {
+        "code": "200",
+        "list": serializer.data
+    }
+def updateQualification(request):
+    data = request.data
+
+    id = data.get("id")
+    name_en = data.get("name_en")
+    name_ar = data.get("name_ar")
+
+    qualification = Qualification.objects.filter(id=id).first()
+
+    if not qualification:
+        return {
+            "code": "404",
+            "msg": "Qualification not found."
+        }
+
+    if name_en:
+        qualification.name_en = name_en
+
+    if name_ar:
+        qualification.name_ar = name_ar
+
+    qualification.save()
+
+    return {
+        "code": "200",
+        "msg": "Qualification updated successfully."
+    }
+def deleteQualification(request):
+    id = request.GET.get("id")
+
+    qualification = Qualification.objects.filter(id=id).first()
+
+    if not qualification:
+        return {
+            "code": "404",
+            "msg": "Qualification not found."
+        }
+
+    qualification.delete()
+
+    return {
+        "code": "200",
+        "msg": "Qualification deleted successfully."
+    }
+    
+    # =================speciliast====================
+
+def addSpecialist(request):
+    data = request.data
+
+    doctor_id = data.get("doctor_id")
+    name_en = data.get("name_en")
+    name_ar = data.get("name_ar")
+
+    if not doctor_id or not name_en:
+        return {
+            "code": "400",
+            "msg": "doctor_id and name_en are required."
+        }
+
+    doctor = Doctor.objects.filter(id=doctor_id).first()
+
+    if not doctor:
+        return {
+            "code": "404",
+            "msg": "Doctor not found."
+        }
+    if Specialist.objects.filter(
+        doctor=doctor
+        ).filter(
+            Q(name_en__iexact=name_en) |
+            Q(name_ar__iexact=name_ar)
+        ).exists():
+            return {
+                "code": "409",
+                "msg": "Specialist already exists."
+            }
+    Specialist.objects.create(
+        doctor=doctor,
+        name_en=name_en,
+        name_ar=name_ar
+    )
+
+    return {
+        "code": "200",
+        "msg": "Specialist added successfully."
+    } 
+    
+def getSpecialistList(request):
+    doctor_id = request.GET.get("doctor_id")
+
+    if not doctor_id:
+        return {
+            "code": "400",
+            "msg": "doctor_id is required."
+        }
+
+    specialists = Specialist.objects.filter(
+        doctor_id=doctor_id
+    )
+
+    serializer = SpecialistSerializer(
+        specialists,
+        many=True
+    )
+
+    return {
+        "code": "200",
+        "list": serializer.data
+    }
+    
+def updateSpecialist(request):
+    data = request.data
+
+    id = data.get("id")
+    name_en = data.get("name_en")
+    name_ar = data.get("name_ar")
+
+    specialist = Specialist.objects.filter(id=id).first()
+
+    if not specialist:
+        return {
+            "code": "404",
+            "msg": "Specialist not found."
+        }
+
+    if name_en:
+        specialist.name_en = name_en
+
+    if name_ar:
+        specialist.name_ar = name_ar
+
+    specialist.save()
+
+    return {
+        "code": "200",
+        "msg": "Specialist updated successfully."
+    } 
+    
+def deleteSpecialist(request):
+    id = request.GET.get("id")
+
+    specialist = Specialist.objects.filter(id=id).first()
+
+    if not specialist:
+        return {
+            "code": "404",
+            "msg": "Specialist not found."
+        }
+
+    specialist.delete()
+
+    return {
+        "code": "200",
+        "msg": "Specialist deleted successfully."
+    }

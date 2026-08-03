@@ -35,11 +35,11 @@ class Doctor(models.Model):
     experience_en = models.CharField(max_length=255, blank=True, null=True)
     experience_ar = models.CharField(max_length=255, blank=True, null=True)
 
-    qualification_en = models.CharField(max_length=255, blank=True, null=True)
-    qualification_ar = models.CharField(max_length=255, blank=True, null=True)
+    # qualification_en = models.CharField(max_length=255, blank=True, null=True)
+    # qualification_ar = models.CharField(max_length=255, blank=True, null=True)
 
-    specialist_en = models.CharField(max_length=255, blank=True, null=True)
-    specialist_ar = models.CharField(max_length=255, blank=True, null=True)
+    # specialist_en = models.CharField(max_length=255, blank=True, null=True)
+    # specialist_ar = models.CharField(max_length=255, blank=True, null=True)
 
     image = models.ImageField(upload_to="doctors/", blank=True, null=True)
 
@@ -48,3 +48,29 @@ class Doctor(models.Model):
 
     def __str__(self):
         return self.name_en or ""
+class Qualification(models.Model):
+    doctor = models.ForeignKey(
+        Doctor,
+        on_delete=models.CASCADE,
+        related_name="qualifications"
+    )
+
+    name_en = models.CharField(max_length=255)
+    name_ar = models.CharField(max_length=255, blank=True, null=True)
+
+    def __str__(self):
+        return self.name_en
+
+
+class Specialist(models.Model):
+    doctor = models.ForeignKey(
+        Doctor,
+        on_delete=models.CASCADE,
+        related_name="specialists"
+    )
+
+    name_en = models.CharField(max_length=255)
+    name_ar = models.CharField(max_length=255, blank=True, null=True)
+
+    def __str__(self):
+        return self.name_en

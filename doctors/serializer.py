@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Category,Doctor
+from .models import Category,Doctor,Qualification,Specialist
 
 
 class CategoriesSerializer(serializers.ModelSerializer):
@@ -27,10 +27,7 @@ class DoctorsSerializer(serializers.ModelSerializer):
                 "about_ar",
                 "experience_en",
                 "experience_ar",
-                "qualification_en",
-                "qualification_ar",
-                "specialist_en",
-                "specialist_ar",
+               
                 "image",
                 # "created_at",
                 # "updated_at",
@@ -54,8 +51,41 @@ class DoctorsSerializer(serializers.ModelSerializer):
 
 
 
+class QualificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Qualification
+        fields = ["id", "name_en", "name_ar"]
+
+
+class SpecialistSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Specialist
+        fields = ["id", "name_en", "name_ar"]
+        
 class DoctorsDetailSerializer(DoctorsSerializer):
     category = CategoriesSerializer(read_only=True)
+    qualifications = QualificationSerializer(many=True, read_only=True)
+    specialists = SpecialistSerializer(many=True, read_only=True)
+    image = serializers.SerializerMethodField()
 
-    class Meta(DoctorsSerializer.Meta):
-        fields = DoctorsSerializer.Meta.fields
+    class Meta:
+        model = Doctor
+        fields = [
+            "id",
+            "category",
+            "name_en",
+            "name_ar",
+            "about_en",
+            "about_ar",
+            "experience_en",
+            "experience_ar",
+            "qualifications",
+            "specialists",
+            "image",
+        ]
+        
+    def get_image(self, obj):
+        request = self.context.get("request")
+        if obj.image:
+            return request.build_absolute_uri(obj.image.url)
+        return None

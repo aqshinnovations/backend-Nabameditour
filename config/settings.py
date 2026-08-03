@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'account',
     'hospitals',
+        "services",          # <-- Make sure this exists
+
 
 
 
