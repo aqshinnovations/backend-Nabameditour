@@ -10,8 +10,8 @@ urlpatterns = [
     path('HospitalDetailsAPIS/', views.HospitalDetailsAPIS.as_view(), name='HospitalDetailsAPIS'),
     path('specializations/', views.SpecializationAPIS.as_view(), name='specializations'),
     path('Facilities/', views.FacilitiesAPIS.as_view(), name='facilities'),
-    
-    
+    path("doctors/", views.DoctorAPIS.as_view(), name="doctors"),
+    path("procedures/", views.ProcedureAPIS.as_view(), name="procedures"),
     
 
     

@@ -1,5 +1,5 @@
-from .models import Hospital,Specialization,Facilities
-from .serializer import HospitalSerializer,HospitalDetailSerializer,SpecializationSerializer
+from .models import Hospital,Specialization,Facilities,Doctor,Procedure
+from .serializer import HospitalSerializer,HospitalDetailSerializer,SpecializationSerializer,DoctorSerializer,ProcedureSerializer
 
 def addHospitals(request):
     adminUser = request.user
@@ -401,3 +401,195 @@ def deleteFacilities(request):
     return {"code": "200", "msg": "Facilities deleted successfully!"}
 
 
+# ------------------------------Doctors --------------------------------------------
+def addDoctor(request):
+    data = request.data
+
+    hospital_id = data.get("hospital_id")
+    name_en = data.get("name_en")
+    name_ar = data.get("name_ar")
+    specialist_en = data.get("specialist_en")
+    specialist_ar = data.get("specialist_ar")
+    image = request.FILES.get("image")
+
+    if not all([hospital_id, name_en, specialist_en]):
+        return {
+            "code": "400",
+            "msg": "Please provide all required fields."
+        }
+
+    hospital = Hospital.objects.filter(id=hospital_id).first()
+    if not hospital:
+        return {
+            "code": "404",
+            "msg": "Hospital not found."
+        }
+
+    Doctor.objects.create(
+        hospital=hospital,
+        name_en=name_en,
+        name_ar=name_ar,
+        specialist_en=specialist_en,
+        specialist_ar=specialist_ar,
+        image=image
+    )
+
+    return {
+        "code": "200",
+        "msg": "Doctor added successfully."
+    }
+
+def getDoctorList(request):
+    hospital_id = request.GET.get("hospital_id")
+    lang = request.GET.get("lang", "en")
+
+    doctors = Doctor.objects.filter(hospital_id=hospital_id)
+
+    serializer = DoctorSerializer(
+        doctors,
+        many=True,
+        context={"request": request, "lang": lang}
+    )
+
+    return {
+        "code": "200",
+        "list": serializer.data
+    }
+
+def updateDoctor(request):
+    data = request.data
+
+    doctor = Doctor.objects.filter(id=data.get("id")).first()
+
+    if not doctor:
+        return {
+            "code": "404",
+            "msg": "Doctor not found."
+        }
+
+    doctor.name_en = data.get("name_en", doctor.name_en)
+    doctor.name_ar = data.get("name_ar", doctor.name_ar)
+    doctor.specialist_en = data.get("specialist_en", doctor.specialist_en)
+    doctor.specialist_ar = data.get("specialist_ar", doctor.specialist_ar)
+
+    image = request.FILES.get("image")
+    if image:
+        doctor.image = image
+
+    doctor.save()
+
+    return {
+        "code": "200",
+        "msg": "Doctor updated successfully."
+    }
+def deleteDoctor(request):
+    doctor = Doctor.objects.filter(id=request.GET.get("id")).first()
+
+    if not doctor:
+        return {
+            "code": "404",
+            "msg": "Doctor not found."
+        }
+
+    doctor.delete()
+
+    return {
+        "code": "200",
+        "msg": "Doctor deleted successfully."
+    }
+    
+# --------------------------PRocedure --------------------------------
+def addProcedure(request):
+    data = request.data
+
+    hospital_id = data.get("hospital_id")
+    name_en = data.get("name_en")
+    name_ar = data.get("name_ar")
+    description_en = data.get("description_en")
+    description_ar = data.get("description_ar")
+    image = request.FILES.get("image")
+
+    if not all([hospital_id, name_en]):
+        return {
+            "code": "400",
+            "msg": "Please provide all required fields."
+        }
+
+    hospital = Hospital.objects.filter(id=hospital_id).first()
+    if not hospital:
+        return {
+            "code": "404",
+            "msg": "Hospital not found."
+        }
+
+    Procedure.objects.create(
+        hospital=hospital,
+        name_en=name_en,
+        name_ar=name_ar,
+        description_en=description_en,
+        description_ar=description_ar,
+        image=image
+    )
+
+    return {
+        "code": "200",
+        "msg": "Procedure added successfully."
+    }
+def getProcedureList(request):
+    hospital_id = request.GET.get("hospital_id")
+    lang = request.GET.get("lang", "en")
+
+    procedures = Procedure.objects.filter(hospital_id=hospital_id)
+
+    serializer = ProcedureSerializer(
+        procedures,
+        many=True,
+        context={"request": request, "lang": lang}
+    )
+
+    return {
+        "code": "200",
+        "list": serializer.data
+    }
+def updateProcedure(request):
+    data = request.data
+
+    procedure = Procedure.objects.filter(id=data.get("id")).first()
+
+    if not procedure:
+        return {
+            "code": "404",
+            "msg": "Procedure not found."
+        }
+
+    procedure.name_en = data.get("name_en", procedure.name_en)
+    procedure.name_ar = data.get("name_ar", procedure.name_ar)
+    procedure.description_en = data.get("description_en", procedure.description_en)
+    procedure.description_ar = data.get("description_ar", procedure.description_ar)
+
+    image = request.FILES.get("image")
+    if image:
+        procedure.image = image
+
+    procedure.save()
+
+    return {
+        "code": "200",
+        "msg": "Procedure updated successfully."
+    }
+    
+def deleteProcedure(request):
+    procedure = Procedure.objects.filter(id=request.GET.get("id")).first()
+
+    if not procedure:
+        return {
+            "code": "404",
+            "msg": "Procedure not found."
+        }
+
+    procedure.delete()
+
+    return {
+        "code": "200",
+        "msg": "Procedure deleted successfully."
+    }

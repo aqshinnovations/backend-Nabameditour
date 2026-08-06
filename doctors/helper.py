@@ -336,7 +336,11 @@ def addQualification(request):
             "code": "409",
             "msg": "Qualification already exists."
         }
-
+    Qualification.objects.create(
+        doctor=doctor,
+        name_en=name_en,
+        name_ar=name_ar
+    )
     return {
         "code": "200",
         "msg": "Qualification added successfully."

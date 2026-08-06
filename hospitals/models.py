@@ -56,4 +56,52 @@ class Facilities(models.Model):
     def __str__(self):
         return self.name_en
     
+class Doctor(models.Model):
+    hospital = models.ForeignKey(
+        Hospital,
+        on_delete=models.CASCADE,
+        related_name="doctors"
+    )
+
+    name_en = models.CharField(max_length=255)
+    name_ar = models.CharField(max_length=255, blank=True, null=True)
+
+    specialist_en = models.CharField(max_length=255)
+    specialist_ar = models.CharField(max_length=255, blank=True, null=True)
+
+    image = models.ImageField(upload_to="doctors/", blank=True, null=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["name_en"]
+
+    def __str__(self):
+        return self.name_en
+
+
+class Procedure(models.Model):
+    hospital = models.ForeignKey(
+        Hospital,
+        on_delete=models.CASCADE,
+        related_name="procedures"
+    )
+
+    name_en = models.CharField(max_length=255)
+    name_ar = models.CharField(max_length=255, blank=True, null=True)
+
+    description_en = models.TextField(blank=True, null=True)
+    description_ar = models.TextField(blank=True, null=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     
+    image = models.ImageField(upload_to="procedures/", blank=True, null=True)
+    
+
+    class Meta:
+        ordering = ["name_en"]
+
+    def __str__(self):
+        return self.name_en

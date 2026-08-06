@@ -79,4 +79,47 @@ class FacilitiesAPIS(APIView):
     def delete(self, request):
         data = helper.deleteFacilities(request)
         return makeResponse(data)
-    
+# ------------------------------- Doctors --------------------------------------
+
+class DoctorAPIS(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        data = helper.addDoctor(request)
+        return makeResponse(data)
+
+    def get(self, request):
+        data = helper.getDoctorList(request)
+        return makeResponse(data)
+
+    def put(self, request):
+        data = helper.updateDoctor(request)
+        return makeResponse(data)
+
+    def delete(self, request):
+        data = helper.deleteDoctor(request)
+        return makeResponse(data)
+
+
+# ------------------------------- Procedures --------------------------------------
+
+class ProcedureAPIS(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        data = helper.addProcedure(request)
+        return makeResponse(data)
+
+    def get(self, request):
+        data = helper.getProcedureList(request)
+        return makeResponse(data)
+
+    def put(self, request):
+        data = helper.updateProcedure(request)
+        return makeResponse(data)
+
+    def delete(self, request):
+        data = helper.deleteProcedure(request)
+        return makeResponse(data)
