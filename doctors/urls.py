@@ -20,7 +20,14 @@ urlpatterns = [
     path("specialist/", views.SpecialistAPIS.as_view()),
     path("specialist/list/", views.SpecialistListAPI.as_view()),
     
+        # Awards
+    path("awards/", views.AwardsAPIS.as_view()),
+    path("awards/list/", views.AwardsListAPI.as_view()),
     
+    # images
+    path("images/", views.ImageAPIS.as_view(), name="ImageAPIS"),
+    path("images/list/", views.ImageListAPI.as_view(), name="ImageListAPI"),
+        
     
     
     

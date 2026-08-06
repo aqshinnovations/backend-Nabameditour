@@ -35,14 +35,12 @@ class Doctor(models.Model):
     experience_en = models.CharField(max_length=255, blank=True, null=True)
     experience_ar = models.CharField(max_length=255, blank=True, null=True)
 
-    # qualification_en = models.CharField(max_length=255, blank=True, null=True)
-    # qualification_ar = models.CharField(max_length=255, blank=True, null=True)
-
-    # specialist_en = models.CharField(max_length=255, blank=True, null=True)
-    # specialist_ar = models.CharField(max_length=255, blank=True, null=True)
+    position_en = models.CharField(max_length=255, blank=True, null=True)
+    position_ar = models.CharField(max_length=255, blank=True, null=True)
 
     image = models.ImageField(upload_to="doctors/", blank=True, null=True)
-
+    created_at = models.DateTimeField(auto_now_add=True,null=True)
+    updated_at = models.DateTimeField(auto_now=True,null=True)
     class Meta:
         ordering = ["-id"]
 
@@ -74,3 +72,29 @@ class Specialist(models.Model):
 
     def __str__(self):
         return self.name_en
+    
+class Awards(models.Model):
+    doctor = models.ForeignKey(
+        Doctor,
+        on_delete=models.CASCADE,
+        related_name="awards"
+    )
+
+    name_en = models.CharField(max_length=255)
+    name_ar = models.CharField(max_length=255, blank=True, null=True)
+
+    def __str__(self):
+        return self.name_en
+
+class Images(models.Model):
+    doctor = models.ForeignKey(
+        Doctor,
+        on_delete=models.CASCADE,
+        related_name="images"
+    )
+    image = models.ImageField(upload_to="doctor_images/")
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.doctor.name_en} - {self.id}"

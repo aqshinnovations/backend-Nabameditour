@@ -109,3 +109,52 @@ class SpecialistAPIS(APIView):
     def delete(self, request):
         data = helper.deleteSpecialist(request)
         return makeResponse(data)
+    
+# -------------------------------------- Award ------------------------------------------------------
+
+class AwardsListAPI(APIView):
+    # Public API
+    def get(self, request):
+        data = helper.getAwardsList(request)
+        return makeResponse(data)
+
+
+class AwardsAPIS(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        data = helper.addAward(request)
+        return makeResponse(data)
+
+    def put(self, request):
+        data = helper.updateAward(request)
+        return makeResponse(data)
+
+    def delete(self, request):
+        data = helper.deleteAward(request)
+        return makeResponse(data)
+# -------------------------------------- Images ------------------------------------------------------
+
+class ImageListAPI(APIView):
+    # Public API
+    def get(self, request):
+        data = helper.getImageList(request)
+        return makeResponse(data)
+
+
+class ImageAPIS(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        data = helper.addImage(request)
+        return makeResponse(data)
+
+    def put(self, request):
+        data = helper.updateImage(request)
+        return makeResponse(data)
+
+    def delete(self, request):
+        data = helper.deleteImage(request)
+        return makeResponse(data)

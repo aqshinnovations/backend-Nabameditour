@@ -6,6 +6,9 @@ from django.db import models
 class Services(models.Model):
     name_en = models.CharField(max_length=255, blank=True, null=True)
     name_ar = models.CharField(max_length=255, blank=True, null=True)
+    
+    position_en = models.CharField(max_length=255, blank=True, null=True)
+    position_ar = models.CharField(max_length=255, blank=True, null=True)
 
     description_en = models.TextField(blank=True, null=True)
     description_ar = models.TextField(blank=True, null=True)
