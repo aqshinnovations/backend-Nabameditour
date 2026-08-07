@@ -8,6 +8,9 @@ class Hospital(models.Model):
     description_en = models.TextField(blank=True, null=True)
     description_ar = models.TextField(blank=True, null=True)
     
+    location_en = models.CharField(max_length=255, null=True, blank=True)
+    location_ar = models.CharField(max_length=255, null=True, blank=True)
+    
     image = models.ImageField(upload_to="hospitals/", blank=True, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)

@@ -11,6 +11,9 @@ def addHospitals(request):
     description_en = data.get("description_en", None)
     description_ar = data.get("description_ar", None)
     
+    location_ar = data.get("location_ar", None)
+    location_en = data.get("location_en", None)
+    
     
     image = request.FILES.get("image") 
 
@@ -32,6 +35,8 @@ def addHospitals(request):
     hospital.description_ar = description_ar
     hospital.description_en = description_en
     hospital.image = image 
+    hospital.location_ar=location_ar
+    hospital.location_en = location_en
 
     hospital.save()
 
@@ -86,6 +91,9 @@ def updateHospital(request):
     description_en = data.get("description_en", None)
     description_ar = data.get("description_ar", None)
     
+    location_ar = data.get("location_ar", None)
+    location_en = data.get("location_en", None)
+    
 
     image = request.FILES.get("image") 
     
@@ -109,7 +117,10 @@ def updateHospital(request):
         hospital .description_en = description_en
     if description_ar:
         hospital .description_ar = description_ar
-
+    if location_en:
+        hospital .location_en = location_en
+    if location_ar:
+        hospital .location_ar = location_ar
     if image:
         hospital .image = image
     hospital .save()

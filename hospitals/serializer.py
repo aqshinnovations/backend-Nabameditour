@@ -80,11 +80,14 @@ class HospitalSerializer(serializers.ModelSerializer):
             "name_ar",
             "description_en",
             "description_ar",
+            "location_ar",
+            "location_en",
             "image",
             "specializations",
             "facilities",
             "doctors",
-            "procedures",            "created_at",
+            "procedures",       
+            "created_at",
             "updated_at",
         ]
 
