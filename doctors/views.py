@@ -53,8 +53,8 @@ class DoctorsAPIS(APIView):
         return makeResponse(data)
     
 class DoctorsDetailsAPIS(APIView):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    # authentication_classes = [JWTAuthentication]
+    # permission_classes = [IsAuthenticated]
     
     def get(self, request):
         data = helper.getDoctorsDetail(request)

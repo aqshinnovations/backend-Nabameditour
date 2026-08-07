@@ -100,12 +100,6 @@ def addDoctors(request):
     experience_ar = data.get("experience_ar", None)
     experience_en = data.get("experience_en", None)
     
-    qualification_ar = data.get("qualification_ar", None)
-    qualification_en = data.get("qualification_en", None)
-    
-    specialist_ar = data.get("specialist_ar", None)
-    specialist_en = data.get("specialist_en", None)
-    
     position_ar = data.get("position_ar", None)
     position_en = data.get("position_en", None)
 
@@ -140,10 +134,6 @@ def addDoctors(request):
     doctors.about_en = about_en
     doctors.experience_ar = experience_ar
     doctors.experience_en = experience_en
-    doctors.qualification_ar = qualification_ar
-    doctors.qualification_en = qualification_en
-    doctors.specialist_ar = specialist_ar
-    doctors.specialist_en = specialist_en
     doctors.image = image
     doctors.category = category  
     doctors.position_ar = position_ar
