@@ -148,21 +148,17 @@ def addDoctors(request):
     
 def getDoctorsList(request):
     data = request.GET
-    lang = data.get("lang", "en")
     category_id = data.get("category_id")
+    if category_id:
+        doctors = Doctor.objects.filter(category_id=category_id)
+    else:
+        doctors = Doctor.objects.all()
 
-    if not category_id:
-        return {
-            "code": "400",
-            "msg": "Please provide category_id.",
-        }
-
-    doctors = Doctor.objects.filter(category_id=category_id)
 
     serializer = DoctorsSerializer(
         doctors,
         many=True,
-        context={"request": request, "lang": lang},
+        context={"request": request,},
     )
 
     return {

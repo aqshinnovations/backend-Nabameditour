@@ -27,7 +27,14 @@ class BlogsSerializer(serializers.ModelSerializer):
         ]
 
     def get_cover_image(self, obj):
-        if obj.cover_image and hasattr(obj.cover_image, "url"):
-            return obj.cover_image.url  
+        request = self.context.get("request")
+
+        if obj.cover_image:
+            return (
+                request.build_absolute_uri(obj.cover_image.url)
+                if request
+                else obj.cover_image.url
+            )
+
         return None
 

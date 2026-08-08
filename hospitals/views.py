@@ -28,8 +28,8 @@ class HospitalAPIS(APIView):
         return makeResponse(data)
 
 class HospitalDetailsAPIS(APIView):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    # authentication_classes = [JWTAuthentication]
+    # permission_classes = [IsAuthenticated]
     
     def get(self, request):
         data = helper.getHospitalDetail(request)
