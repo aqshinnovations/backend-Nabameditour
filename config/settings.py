@@ -38,6 +38,8 @@ CORS_ALLOWED_ORIGINS = [
     "https://nabameditour.com",
     "https://www.nabameditour.com",
     "http://localhost:5173",
+        "http://localhost:3000",
+
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -46,6 +48,8 @@ CSRF_TRUSTED_ORIGINS = [
     "https://nabameditour.com",
     "https://www.nabameditour.com",
     "https://api.nabameditour.com",
+       "http://localhost:5173",
+    "http://localhost:3000",
 ]
 # MEDIA_URL = "/blogs/"
 # MEDIA_ROOT = BASE_DIR / "blogs"
