@@ -26,7 +26,27 @@ SECRET_KEY = 'django-insecure-3^0&!3+4h0_azgy3flach$z7vppd3bml!kh8)zbc(egr_v(=@c
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "api.nabameditour.com",
+    "nabameditour.com",
+    "www.nabameditour.com",
+    "localhost",
+    "127.0.0.1",
+]
+
+CORS_ALLOWED_ORIGINS = [
+    "https://nabameditour.com",
+    "https://www.nabameditour.com",
+    "http://localhost:5173",
+]
+
+CORS_ALLOW_CREDENTIALS = True
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://nabameditour.com",
+    "https://www.nabameditour.com",
+    "https://api.nabameditour.com",
+]
 # MEDIA_URL = "/blogs/"
 # MEDIA_ROOT = BASE_DIR / "blogs"
 MEDIA_URL = "/media/"
@@ -70,10 +90,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',    "corsheaders.middleware.CorsMiddleware",
 
 ]
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-]
-CORS_ALLOW_CREDENTIALS = True
+
 
 ROOT_URLCONF = 'config.urls'
 

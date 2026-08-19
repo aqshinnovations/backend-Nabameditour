@@ -141,11 +141,14 @@ def addDoctors(request):
      
     doctors.save()
 
-    return {
-        "code": "200",
-          "msg": "Doctors added successfully",
-    },
+
     
+    data = {
+            "code": "200",
+            "msg": "Doctors added successfully!",
+        }
+    return data
+
 def getDoctorsList(request):
     data = request.GET
     category_id = data.get("category_id")
