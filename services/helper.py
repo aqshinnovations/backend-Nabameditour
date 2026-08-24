@@ -42,7 +42,7 @@ def addServices(request):
     return {
         "code": "200",
           "msg": "Services added successfully",
-    },
+    }
     
 def getServicesList(request):
     services = Services.objects.all()
