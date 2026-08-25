@@ -37,7 +37,9 @@ ALLOWED_HOSTS = [
 CORS_ALLOWED_ORIGINS = [
     "https://nabameditour.com",
     "https://www.nabameditour.com",
-    "http://localhost:5173",
+       "https://admin.nabameditour.com",
+
+ "http://localhost:5173",
         "http://localhost:3000",
 
 ]
@@ -48,6 +50,8 @@ CSRF_TRUSTED_ORIGINS = [
     "https://nabameditour.com",
     "https://www.nabameditour.com",
     "https://api.nabameditour.com",
+        "https://admin.nabameditour.com",
+
        "http://localhost:5173",
     "http://localhost:3000",
 ]
