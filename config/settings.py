@@ -50,9 +50,8 @@ CSRF_TRUSTED_ORIGINS = [
     "https://nabameditour.com",
     "https://www.nabameditour.com",
     "https://api.nabameditour.com",
-        "https://admin.nabameditour.com",
-
-       "http://localhost:5173",
+     "https://admin.nabameditour.com",
+    "http://localhost:5173",
     "http://localhost:3000",
 ]
 # MEDIA_URL = "/blogs/"
@@ -74,8 +73,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'account',
     'hospitals',
-    "services",          # <-- Make sure this exists
-    "patients",
+    "services",          
+    "patients",    
+    "testimonials",
+
 
 
 
