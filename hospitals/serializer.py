@@ -1,5 +1,12 @@
 from rest_framework import serializers
-from .models import Hospital, Specialization, Facilities,Doctor,Procedure
+from .models import (
+    Hospital,
+    Specialization,
+    Facilities,
+    Doctor,
+    Procedure,
+    HospitalImage,
+)
 
 
 class SpecializationSerializer(serializers.ModelSerializer):
@@ -32,9 +39,7 @@ class DoctorSerializer(serializers.ModelSerializer):
         request = self.context.get("request")
         if obj.image:
             return (
-                request.build_absolute_uri(obj.image.url)
-                if request
-                else obj.image.url
+                request.build_absolute_uri(obj.image.url) if request else obj.image.url
             )
         return None
 
@@ -57,14 +62,32 @@ class ProcedureSerializer(serializers.ModelSerializer):
         request = self.context.get("request")
         if obj.image:
             return (
-                request.build_absolute_uri(obj.image.url)
-                if request
-                else obj.image.url
+                request.build_absolute_uri(obj.image.url) if request else obj.image.url
             )
         return None
 
-class HospitalSerializer(serializers.ModelSerializer):
+
+class HospitalImageSerializer(serializers.ModelSerializer):
     image = serializers.SerializerMethodField()
+
+    class Meta:
+        model = HospitalImage
+        fields = [
+            "id",
+            "image",
+        ]
+
+    def get_image(self, obj):
+        request = self.context.get("request")
+        if obj.image:
+            return (
+                request.build_absolute_uri(obj.image.url) if request else obj.image.url
+            )
+        return None
+
+
+class HospitalSerializer(serializers.ModelSerializer):
+    images = serializers.SerializerMethodField()
     specializations = serializers.SerializerMethodField()
     facilities = serializers.SerializerMethodField()
     doctors = serializers.SerializerMethodField()
@@ -82,67 +105,52 @@ class HospitalSerializer(serializers.ModelSerializer):
             "description_ar",
             "location_ar",
             "location_en",
-            "image",
+            "images",
             "specializations",
             "facilities",
             "doctors",
-            "procedures",       
+            "procedures",
             "created_at",
             "updated_at",
         ]
 
-    def get_image(self, obj):
-        request = self.context.get("request")
-
-        if obj.image:
-            return (
-                request.build_absolute_uri(obj.image.url)
-                if request
-                else obj.image.url
-            )
-        return None
+    def get_images(self, obj):
+        return HospitalImageSerializer(
+            obj.images.all(), many=True, context=self.context
+        ).data
 
     def get_specializations(self, obj):
-        return SpecializationSerializer(
-            obj.specializations.all()[:3],
-            many=True
-        ).data
+        return SpecializationSerializer(obj.specializations.all()[:3], many=True).data
 
     def get_facilities(self, obj):
         return FacilitiesSerializer(
-            obj.Facilities.all()[:3],   # change to obj.facilities.all() if related_name="facilities"
-            many=True
+            obj.Facilities.all()[
+                :3
+            ],  # change to obj.facilities.all() if related_name="facilities"
+            many=True,
         ).data
+
     def get_doctors(self, obj):
         return DoctorSerializer(
-            obj.doctors.all()[:3],
-            many=True,
-            context=self.context
+            obj.doctors.all()[:3], many=True, context=self.context
         ).data
 
     def get_procedures(self, obj):
         return ProcedureSerializer(
-            obj.procedures.all()[:3],
-            many=True,
-            context=self.context
+            obj.procedures.all()[:3], many=True, context=self.context
         ).data
+
 
 class HospitalDetailSerializer(HospitalSerializer):
     specializations = SpecializationSerializer(many=True, read_only=True)
     facilities = FacilitiesSerializer(
-        source="Facilities",   # remove source if related_name="facilities"
+        source="Facilities",  # remove source if related_name="facilities"
         many=True,
         read_only=True,
     )
-    doctors = DoctorSerializer(
-        many=True,
-        read_only=True
-    )
+    doctors = DoctorSerializer(many=True, read_only=True)
 
-    procedures = ProcedureSerializer(
-        many=True,
-        read_only=True
-    )
+    procedures = ProcedureSerializer(many=True, read_only=True)
 
     class Meta(HospitalSerializer.Meta):
         fields = HospitalSerializer.Meta.fields

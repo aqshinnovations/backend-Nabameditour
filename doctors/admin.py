@@ -24,16 +24,12 @@ class DoctorAdmin(admin.ModelAdmin):
     list_filter = ("category",)
 
     def get_specialists(self, obj):
-        return ", ".join(
-            obj.specialists.values_list("name_en", flat=True)
-        )
+        return ", ".join(obj.specialists.values_list("name_en", flat=True))
 
     get_specialists.short_description = "Specialists"
 
     def get_qualifications(self, obj):
-        return ", ".join(
-            obj.qualifications.values_list("name_en", flat=True)
-        )
+        return ", ".join(obj.qualifications.values_list("name_en", flat=True))
 
     get_qualifications.short_description = "Qualifications"
 

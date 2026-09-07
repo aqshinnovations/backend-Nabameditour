@@ -1,4 +1,4 @@
-from .models import Hospital,Specialization,Facilities,Doctor,Procedure
+from .models import Hospital,Specialization,Facilities,Doctor,Procedure,HospitalImage
 from .serializer import HospitalSerializer,HospitalDetailSerializer,SpecializationSerializer,DoctorSerializer,ProcedureSerializer
 
 def addHospitals(request):
@@ -15,8 +15,7 @@ def addHospitals(request):
     location_en = data.get("location_en", None)
     
     
-    image = request.FILES.get("image") 
-
+    images = request.FILES.getlist("images")
     if not name_en or not name_ar or not description_en or not description_ar:
         return {
             "code": "400",
@@ -34,12 +33,15 @@ def addHospitals(request):
     hospital.name_en = name_en
     hospital.description_ar = description_ar
     hospital.description_en = description_en
-    hospital.image = image 
     hospital.location_ar=location_ar
     hospital.location_en = location_en
 
     hospital.save()
-
+    for image in images: 
+        HospitalImage.objects.create(
+            hospital=hospital,
+            image=image
+            )
     data = {
         "code": "200",
         "msg": "Hospital Added successfully!",
