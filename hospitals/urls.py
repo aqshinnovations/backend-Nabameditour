@@ -17,4 +17,5 @@ urlpatterns = [
     path("Facilities/", views.FacilitiesAPIS.as_view(), name="facilities"),
     path("doctors/", views.DoctorAPIS.as_view(), name="doctors"),
     path("procedures/", views.ProcedureAPIS.as_view(), name="procedures"),
+    path("images/", views.HospitalImages.as_view(), name="procedures"),
 ]
