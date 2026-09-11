@@ -121,3 +121,20 @@ class Procedure(models.Model):
 
     def __str__(self):
         return self.name_en
+
+
+# govt
+class GovernmentSchemeLogo(models.Model):
+    hospital = models.ForeignKey(
+        Hospital, on_delete=models.CASCADE, related_name="government_scheme_logos"
+    )
+
+    image = models.ImageField(upload_to="hospitals/government-schemes/")
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["created_at"]
+
+    def __str__(self):
+        return f"{self.hospital.name_en} - Government Scheme Logo {self.id}"

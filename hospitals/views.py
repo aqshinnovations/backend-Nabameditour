@@ -151,3 +151,20 @@ class HospitalImages(APIView):
     def delete(self, request):
         data = helper.deleteHospitalImage(request)
         return makeResponse(data)
+
+
+class GovernmentSchemeLogo(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        data = helper.addGovernmentSchemeLogos(request)
+        return makeResponse(data)
+
+    def get(self, request):
+        data = helper.getGovernmentSchemeLogos(request)
+        return makeResponse(data)
+
+    def delete(self, request):
+        data = helper.deleteGovernmentSchemeLogo(request)
+        return makeResponse(data)

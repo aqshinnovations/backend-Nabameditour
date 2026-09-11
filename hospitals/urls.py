@@ -18,4 +18,9 @@ urlpatterns = [
     path("doctors/", views.DoctorAPIS.as_view(), name="doctors"),
     path("procedures/", views.ProcedureAPIS.as_view(), name="procedures"),
     path("images/", views.HospitalImages.as_view(), name="procedures"),
+    path(
+        "government-scheme-logos/",
+        views.GovernmentSchemeLogo.as_view(),
+        name="procedures",
+    ),
 ]

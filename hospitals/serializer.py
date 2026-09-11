@@ -6,6 +6,7 @@ from .models import (
     Doctor,
     Procedure,
     HospitalImage,
+    GovernmentSchemeLogo,
 )
 
 
@@ -86,8 +87,28 @@ class HospitalImageSerializer(serializers.ModelSerializer):
         return None
 
 
+class GovtSchemeSerializer(serializers.ModelSerializer):
+    image = serializers.SerializerMethodField()
+
+    class Meta:
+        model = GovernmentSchemeLogo
+        fields = [
+            "id",
+            "image",
+        ]
+
+    def get_image(self, obj):
+        request = self.context.get("request")
+        if obj.image:
+            return (
+                request.build_absolute_uri(obj.image.url) if request else obj.image.url
+            )
+        return None
+
+
 class HospitalSerializer(serializers.ModelSerializer):
     images = serializers.SerializerMethodField()
+    government_scheme_logos = serializers.SerializerMethodField()
     specializations = serializers.SerializerMethodField()
     facilities = serializers.SerializerMethodField()
     doctors = serializers.SerializerMethodField()
@@ -110,6 +131,7 @@ class HospitalSerializer(serializers.ModelSerializer):
             "facilities",
             "doctors",
             "procedures",
+            "government_scheme_logos",
             "created_at",
             "updated_at",
         ]
@@ -117,6 +139,13 @@ class HospitalSerializer(serializers.ModelSerializer):
     def get_images(self, obj):
         return HospitalImageSerializer(
             obj.images.all(), many=True, context=self.context
+        ).data
+
+    def get_government_scheme_logos(self, obj):
+        return GovtSchemeSerializer(
+            obj.government_scheme_logos.all(),
+            many=True,
+            context=self.context,
         ).data
 
     def get_specializations(self, obj):

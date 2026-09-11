@@ -5,6 +5,7 @@ from .models import (
     Doctor,
     Procedure,
     HospitalImage,
+    GovernmentSchemeLogo,
 )
 from .serializer import (
     HospitalSerializer,
@@ -12,6 +13,7 @@ from .serializer import (
     SpecializationSerializer,
     DoctorSerializer,
     ProcedureSerializer,
+    GovtSchemeSerializer,
 )
 
 
@@ -636,3 +638,70 @@ def getHospitalImages(request):
         )
 
     return {"code": "200", "list": image_list}
+
+
+# -------------------------- Government Scheme Logos --------------------------
+
+
+def addGovernmentSchemeLogos(request):
+    hospital_id = request.data.get("hospital_id")
+    images = request.FILES.getlist("images")
+
+    if not hospital_id:
+        return {"code": "400", "msg": "Hospital ID is required."}
+
+    if not images:
+        return {
+            "code": "400",
+            "msg": "Please upload at least one government scheme logo.",
+        }
+
+    hospital = Hospital.objects.filter(id=hospital_id).first()
+
+    if not hospital:
+        return {"code": "404", "msg": "Hospital not found."}
+
+    for image in images:
+        GovernmentSchemeLogo.objects.create(hospital=hospital, image=image)
+
+    return {"code": "200", "msg": "Government scheme logos added successfully."}
+
+
+def getGovernmentSchemeLogos(request):
+    hospital_id = request.GET.get("hospital_id")
+
+    if not hospital_id:
+        return {"code": "400", "msg": "Hospital ID is required."}
+
+    hospital = Hospital.objects.filter(id=hospital_id).first()
+
+    if not hospital:
+        return {"code": "404", "msg": "Hospital not found."}
+
+    logos = GovernmentSchemeLogo.objects.filter(hospital_id=hospital_id).order_by(
+        "created_at"
+    )
+
+    serializer = GovtSchemeSerializer(logos, many=True, context={"request": request})
+
+    return {"code": "200", "list": serializer.data}
+
+
+def deleteGovernmentSchemeLogo(request):
+    logo_id = request.GET.get("id")
+
+    if not logo_id:
+        return {"code": "400", "msg": "Government scheme logo ID is required."}
+
+    logo = GovernmentSchemeLogo.objects.filter(id=logo_id).first()
+
+    if not logo:
+        return {"code": "404", "msg": "Government scheme logo not found."}
+
+    # Delete actual image file from storage
+    if logo.image:
+        logo.image.delete(save=False)
+
+    logo.delete()
+
+    return {"code": "200", "msg": "Government scheme logo deleted successfully."}
